@@ -1,1 +1,1 @@
-# AQI-Predicitor-App
+# AQI-Predictor-App
