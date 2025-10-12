@@ -5,8 +5,6 @@ This project focuses on predicting the Air Quality Index (AQI) using multiple ma
 ---
 
 - **Live Models**:
-  - [RandomForestRegressor Model](https://aqi-rfr.streamlit.app/)
-  - [SGDRegressor Model](https://aqi-sgd.streamlit.app/)
   - [TensorFlow Model](https://jom-aqi-predictor-app.streamlit.app/)
 
 The experimental model demonstrates superior performance compared to the main model. Explore these models through the provided links.
