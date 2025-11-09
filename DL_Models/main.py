@@ -31,52 +31,28 @@ model_names = ['model_91', 'model_169', 'model_187']
 model_selection = st.selectbox('Select Model', model_names)
 
 if model_selection == 'model_91':
-    model_path = './DL_Models/models/model_91.keras'
+    model_path = './DL_Models/models/model_91_fixed.keras'
 elif model_selection == 'model_169':
-    model_path = './DL_Models/models/model_169.keras'
+    model_path = './DL_Models/models/model_169_fixed.keras'
 elif model_selection == 'model_187':
-    model_path = './DL_Models/models/model_187.keras'
+    model_path = './DL_Models/models/model_187_fixed.keras'
 
-try:
-    model = tf.keras.models.load_model(
-        model_path,
-        compile=False,
-        custom_objects={
-            'LeakyReLU': tf.keras.layers.LeakyReLU,
-            'PReLU': tf.keras.layers.PReLU,
-            'ELU': tf.keras.layers.ELU,
-            'ReLU': tf.keras.layers.ReLU,
-            'Swish': tf.keras.layers.Activation,
-            'sigmoid': tf.keras.activations.sigmoid,
-            'relu': tf.keras.activations.relu,
-            'tanh': tf.keras.activations.tanh,
-        }
-    )
-except Exception as e:
-    st.error(f"❌ Model Load Error: {type(e).__name__}")
-    st.error(str(e))
-    st.stop()
-
+model = tf.keras.models.load_model(model_path, compile=False)
 
 # Predict button
-# Predict button
+# Your preprocess returns a Tensor; convert to NumPy before predict
 if st.button('Predict'):
+    arr = input_data.numpy() if tf.is_tensor(input_data) else input_data
+    arr = np.array(arr, dtype=np.float32)  # shape should be (1, 6)
 
-    input_data = tf.cast(input_data, tf.float32)
-    input_data = input_data.numpy() if tf.is_tensor(input_data) else input_data
-    
-    pred = model.predict(input_data)
+    pred = model.predict(arr)
 
-    # ✅ Handle dict output
     if isinstance(pred, dict):
         pred = list(pred.values())[0]
-
-    # ✅ Convert tensor → numpy
     if tf.is_tensor(pred):
         pred = pred.numpy()
 
-    pred = np.array(pred)
-    prediction = float(pred.flatten()[0])
+    prediction = float(np.array(pred).flatten()[0])
 
     st.subheader('AQI Prediction:')
     st.write(prediction)
