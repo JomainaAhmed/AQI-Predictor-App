@@ -44,7 +44,8 @@ model = tf.keras.models.load_model(model_path, compile=False)
 if st.button('Predict'):
 
     input_data = tf.cast(input_data, tf.float32)
-
+    input_data = input_data.numpy() if tf.is_tensor(input_data) else input_data
+    
     pred = model.predict(input_data)
 
     # ✅ Handle dict output
