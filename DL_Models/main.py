@@ -1,6 +1,7 @@
 import numpy as np
 import streamlit as st
 import tensorflow as tf
+from keras.layers import TFSMLayer
 import os
 
 # Function to preprocess input data
@@ -31,28 +32,35 @@ model_names = ['model_91', 'model_169', 'model_187']
 model_selection = st.selectbox('Select Model', model_names)
 
 if model_selection == 'model_91':
-    model_path = './DL_Models/models/model_91.h5'
+    model_path = './DL_Models/models/model_91_saved'
 elif model_selection == 'model_169':
-    model_path = './DL_Models/models/model_169.h5'
+    model_path = './DL_Models/models/model_169_saved'
 elif model_selection == 'model_187':
-    model_path = './DL_Models/models/model_187.h5'
+    model_path = './DL_Models/models/model_187_saved'
 
-model = tf.keras.models.load_model(model_path, compile=False)
+infer = TFSMLayer(model_path, call_endpoint='serving_default')
 
 # Predict button
 # Your preprocess returns a Tensor; convert to NumPy before predict
 if st.button('Predict'):
+    # Your preprocess already returns (1,6) tensor. Make sure it's float32 ndarray.
     arr = input_data.numpy() if tf.is_tensor(input_data) else input_data
-    arr = np.array(arr, dtype=np.float32)  # shape should be (1, 6)
+    arr = np.array(arr, dtype=np.float32)   # shape (1, 6)
 
-    pred = model.predict(arr)
+    # Call the SavedModel via TFSMLayer
+    outputs = infer(arr)
 
-    if isinstance(pred, dict):
-        pred = list(pred.values())[0]
-    if tf.is_tensor(pred):
-        pred = pred.numpy()
+    # TFSMLayer can return a dict or a tensor; normalize it
+    if isinstance(outputs, dict):
+        # take the first output
+        y = next(iter(outputs.values()))
+    else:
+        y = outputs
 
-    prediction = float(np.array(pred).flatten()[0])
+    if tf.is_tensor(y):
+        y = y.numpy()
+
+    prediction = float(np.array(y).ravel()[0])
 
     st.subheader('AQI Prediction:')
     st.write(prediction)
