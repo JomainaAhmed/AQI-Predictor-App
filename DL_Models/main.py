@@ -39,9 +39,26 @@ elif model_selection == 'model_187':
 model = tf.keras.models.load_model(model_path, compile=False, safe_mode=False)
 
 # Predict button
+# Predict button
 if st.button('Predict'):
-    prediction = float(model.predict(input_data).flatten()[0])
+    pred = model.predict(input_data)
+
+    # Handle dict output (SavedModel sometimes returns dict)
+    if isinstance(pred, dict):
+        pred = list(pred.values())[0]
+
+    # If it's a Tensor, convert to NumPy
+    if tf.is_tensor(pred):
+        pred = pred.numpy()
+
+    # Ensure NumPy array
+    pred = np.array(pred)
+
+    # Now extract single value safely
+    prediction = float(pred.flatten()[0])
+
     st.subheader('AQI Prediction:')
+
     
     # Define color ranges for AQI
     color_ranges = {
