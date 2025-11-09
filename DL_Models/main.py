@@ -31,11 +31,11 @@ model_names = ['model_91', 'model_169', 'model_187']
 model_selection = st.selectbox('Select Model', model_names)
 
 if model_selection == 'model_91':
-    model_path = './DL_Models/models/model_91_fixed.keras'
+    model_path = './DL_Models/models/model_91.h5'
 elif model_selection == 'model_169':
-    model_path = './DL_Models/models/model_169_fixed.keras'
+    model_path = './DL_Models/models/model_169.h5'
 elif model_selection == 'model_187':
-    model_path = './DL_Models/models/model_187_fixed.keras'
+    model_path = './DL_Models/models/model_187.h5'
 
 model = tf.keras.models.load_model(model_path, compile=False)
 
