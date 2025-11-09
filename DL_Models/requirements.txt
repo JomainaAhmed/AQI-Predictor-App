@@ -1,2 +1,6 @@
 streamlit
-tensorflow>=2.12.0
+tensorflow-cpu==2.12.0
+h5py
+numpy
+pandas
+scikit-learn
