@@ -36,7 +36,7 @@ elif model_selection == 'model_169':
 elif model_selection == 'model_187':
     model_path = './DL_Models/models/model_187.h5'
 
-model = tf.keras.models.load_model(model_path)
+model = tf.keras.models.load_model(model_path, compile=False, safe_mode=False)
 
 # Predict button
 if st.button('Predict'):
