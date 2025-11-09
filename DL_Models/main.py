@@ -42,12 +42,8 @@ model = tf.keras.models.load_model(model_path, compile=False, safe_mode=False)
 # Predict button
 # Predict button
 if st.button('Predict'):
-    # ✅ Normalize input shape & type
-    input_data = np.array(input_data, dtype=float)
 
-    # ✅ Add batch dimension if missing
-    if input_data.ndim == 1:
-        input_data = np.expand_dims(input_data, axis=0)
+    input_data = tf.cast(input_data, tf.float32)
 
     pred = model.predict(input_data)
 
