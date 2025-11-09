@@ -41,24 +41,28 @@ model = tf.keras.models.load_model(model_path, compile=False, safe_mode=False)
 # Predict button
 # Predict button
 if st.button('Predict'):
+    # ✅ Normalize input shape & type
+    input_data = np.array(input_data, dtype=float)
+
+    # ✅ Add batch dimension if missing
+    if input_data.ndim == 1:
+        input_data = np.expand_dims(input_data, axis=0)
+
     pred = model.predict(input_data)
 
-    # Handle dict output (SavedModel sometimes returns dict)
+    # ✅ Handle dict output
     if isinstance(pred, dict):
         pred = list(pred.values())[0]
 
-    # If it's a Tensor, convert to NumPy
+    # ✅ Convert tensor → numpy
     if tf.is_tensor(pred):
         pred = pred.numpy()
 
-    # Ensure NumPy array
     pred = np.array(pred)
-
-    # Now extract single value safely
     prediction = float(pred.flatten()[0])
 
     st.subheader('AQI Prediction:')
-
+    st.write(prediction)
     
     # Define color ranges for AQI
     color_ranges = {
