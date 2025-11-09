@@ -37,20 +37,26 @@ elif model_selection == 'model_169':
 elif model_selection == 'model_187':
     model_path = './DL_Models/models/model_187.keras'
 
-model = tf.keras.models.load_model(
-    model_path,
-    compile=False,
-    custom_objects={
-        'LeakyReLU': tf.keras.layers.LeakyReLU,
-        'PReLU': tf.keras.layers.PReLU,
-        'ELU': tf.keras.layers.ELU,
-        'ReLU': tf.keras.layers.ReLU,
-        'Swish': tf.keras.layers.Activation,
-        'sigmoid': tf.keras.activations.sigmoid,
-        'relu': tf.keras.activations.relu,
-        'tanh': tf.keras.activations.tanh,
-    }
-)
+try:
+    model = tf.keras.models.load_model(
+        model_path,
+        compile=False,
+        custom_objects={
+            'LeakyReLU': tf.keras.layers.LeakyReLU,
+            'PReLU': tf.keras.layers.PReLU,
+            'ELU': tf.keras.layers.ELU,
+            'ReLU': tf.keras.layers.ReLU,
+            'Swish': tf.keras.layers.Activation,
+            'sigmoid': tf.keras.activations.sigmoid,
+            'relu': tf.keras.activations.relu,
+            'tanh': tf.keras.activations.tanh,
+        }
+    )
+except Exception as e:
+    st.error(f"❌ Model Load Error: {type(e).__name__}")
+    st.error(str(e))
+    st.stop()
+
 
 # Predict button
 # Predict button
