@@ -40,7 +40,7 @@ model = tf.keras.models.load_model(model_path, compile=False, safe_mode=False)
 
 # Predict button
 if st.button('Predict'):
-    prediction = model.predict(input_data)[0][0]
+    prediction = float(model.predict(input_data).flatten()[0])
     st.subheader('AQI Prediction:')
     
     # Define color ranges for AQI
