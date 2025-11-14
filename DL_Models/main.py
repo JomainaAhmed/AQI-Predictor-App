@@ -30,13 +30,13 @@ model_names = ['model_91', 'model_169', 'model_187']
 model_selection = st.selectbox('Select Model', model_names)
 
 if model_selection == 'model_91':
-    model_path = './DL_Models/models/model_91.h5'
+    model_path = "DL_Models/model_91.h5"
 elif model_selection == 'model_169':
-    model_path = './DL_Models/models/model_169.h5'
+    model_path = "DL_Models/model_169.h5"
 elif model_selection == 'model_187':
-    model_path = './DL_Models/models/model_187.h5'
+    model_path = "DL_Models/model_187.h5"
 
-model = tf.keras.models.load_model(model_path)
+model = load_model_safely(model_path)
 
 # Predict button
 if st.button('Predict'):
