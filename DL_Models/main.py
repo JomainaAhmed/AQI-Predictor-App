@@ -1,7 +1,5 @@
-import numpy as np
 import streamlit as st
 import tensorflow as tf
-from keras.layers import TFSMLayer
 import os
 
 # Function to preprocess input data
@@ -32,38 +30,18 @@ model_names = ['model_91', 'model_169', 'model_187']
 model_selection = st.selectbox('Select Model', model_names)
 
 if model_selection == 'model_91':
-    model_path = './DL_Models/models/model_91_saved'
+    model_path = './DL_Models/models/model_91.h5'
 elif model_selection == 'model_169':
-    model_path = './DL_Models/models/model_169_saved'
+    model_path = './DL_Models/models/model_169.h5'
 elif model_selection == 'model_187':
-    model_path = './DL_Models/models/model_187_saved'
+    model_path = './DL_Models/models/model_187.h5'
 
-infer = TFSMLayer(model_path, call_endpoint='serving_default')
+model = tf.keras.models.load_model(model_path)
 
 # Predict button
-# Your preprocess returns a Tensor; convert to NumPy before predict
 if st.button('Predict'):
-    # Your preprocess already returns (1,6) tensor. Make sure it's float32 ndarray.
-    arr = input_data.numpy() if tf.is_tensor(input_data) else input_data
-    arr = np.array(arr, dtype=np.float32)   # shape (1, 6)
-
-    # Call the SavedModel via TFSMLayer
-    outputs = infer(arr)
-
-    # TFSMLayer can return a dict or a tensor; normalize it
-    if isinstance(outputs, dict):
-        # take the first output
-        y = next(iter(outputs.values()))
-    else:
-        y = outputs
-
-    if tf.is_tensor(y):
-        y = y.numpy()
-
-    prediction = float(np.array(y).ravel()[0])
-
+    prediction = model.predict(input_data)[0][0]
     st.subheader('AQI Prediction:')
-    st.write(prediction)
     
     # Define color ranges for AQI
     color_ranges = {
@@ -125,3 +103,17 @@ image_title = image_files[image_index][2:].split('.')[0].replace('_', ' ').title
 st.title(image_title)
 st.image(image_path, use_column_width=True)
 
+
+# Project Link
+st.markdown('---')
+st.subheader('Best Predictions')
+st.write('Checkout this demo video to see the best predictions of the AQI using the models')
+
+# Display the youtube video
+st.video('https://youtu.be/5Rhdfst09Dc')
+
+st.subheader('Project Link')
+st.write('To know more about the project take a look on the Github repo link given below')
+st.markdown('<a href="https://github.com/ShubhamKNIT/AlgoMinds">\
+            <img src="https://github.com/fluidicon.png" alt="GitHub"\
+            style="width: 50px; border-radius: 50%;"></a> AlgoMinds', unsafe_allow_html=True)
