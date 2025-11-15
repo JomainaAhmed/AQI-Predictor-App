@@ -127,7 +127,7 @@ The project directory is organized as follows:
   - Computed **weekly rolling averages** (e.g., `PM2.5_rw_avg`)
   - Scaled features and split data (80% train / 20% test)
 - **Models Tried**:
-  - SGDRegressor, XGBoost, RandomForest, LGBM
+  - RandomForest, GradientBoosting, XGBoost
 - **Hyperparameter Tuning**:
   - Used RandomizedSearchCV with cross-validation
 - **Final Models Benchmarked**:
