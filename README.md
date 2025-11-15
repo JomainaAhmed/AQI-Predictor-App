@@ -2,10 +2,6 @@
 
 This project focuses on predicting the Air Quality Index (AQI) using multiple machine learning and deep learning models, based on air pollutant data collected from Indian cities. The complete pipeline covers data cleaning, feature engineering, model training, evaluation, and deployment using Streamlit.
 
----
-
-- **Live Models**:
-  - [TensorFlow Model](https://jom-aqi-predictor-app.streamlit.app/)
 
 The experimental model demonstrates superior performance compared to the main model. Explore these models through the provided links.
 
@@ -146,31 +142,8 @@ The project directory is organized as follows:
 
 ---
 
-### ✅ **Model 2: Lightweight AQI Prediction (PM2.5 & PM10 Focus)**
 
-**Objective**: Build a simple yet effective model using just the two most critical features for AQI – PM2.5 and PM10.
-
-- **Preprocessing**:
-  - Missing values filled using AQI-label-wise interpolation
-  - Enhanced outlier detection using **EllipticEnvelope** (contamination = 0.30)
-- **Feature Selection**:
-  - Only `PM2.5` and `PM10`
-  - Dataset after cleaning: **52,000 instances** (70% train / 30% test)
-- **Models Tried**:
-  - ElasticNet, SGD, KNeighbors, ExtraTrees, Lasso, Lars, BayesianRidge, OMP
-- **Final Model Evaluation**:
-
-| Model         | MSE      |
-|---------------|----------|
-| ElasticNet    | 516.61   |
-| KNeighbors    | **367.92** |
-| **SGDRegressor** ✅ | 516.64   |
-
-📌 **Winner**: **SGDRegressor** – selected based on overall performance and consistency through visual inspection
-
----
-
-### ✅ **Model 3: Neural Network-Based AQI Prediction**
+### ✅ **Model 2: Neural Network-Based AQI Prediction**
 
 **Objective**: Leverage deep learning to capture non-linear relationships among pollutants.
 
