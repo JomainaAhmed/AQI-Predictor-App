@@ -15,7 +15,7 @@ To get started with the project, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/JomainaAhmed/AQI-Predictor-App
+   git clone https://github.com/JomainaAhmed/AQI-Predictor-Application
    ```
 
 2. **Install dependencies**:
